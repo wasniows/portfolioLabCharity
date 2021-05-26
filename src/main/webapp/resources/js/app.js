@@ -164,7 +164,11 @@ document.addEventListener("DOMContentLoaded", function() {
       this.$step.parentElement.hidden = this.currentStep >= 5;
 
       // TODO: get data from inputs and show them in summary
+
+      document.getElementById("summaryCity").textContent = document.getElementById("city").value;
+
     }
+
 
   }
   const form = document.querySelector(".form--steps");

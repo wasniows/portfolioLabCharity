@@ -17,5 +17,7 @@ public class Institution {
 
     private String description;
 
-
+    public String getDescription() {
+        return description;
+    }
 }

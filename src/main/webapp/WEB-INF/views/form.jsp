@@ -95,7 +95,7 @@
 
 
                 <c:forEach items="${categories}" var="item">
-                    <div class="form-group form-group--checkbox">
+                    <div class="form-group checkbox">
                         <label>
                             <form:checkbox
                                     path="categories"
@@ -135,7 +135,7 @@
                 <div class="form-group form-group--inline">
                     <label>
                         Liczba 60l worków:
-                        <form:input type="number" path="quantity" step="1" min="1" value="1"/>
+                        <form:input id="quantity" type="number" path="quantity" step="1" min="1" value="1"/>
                     </label>
                 </div>
 
@@ -250,7 +250,7 @@
                         <ul>
                             <li>
                                 <span class="icon icon-bag"></span>
-                                <span class="summary--text"
+                                <span id="summaryQuantity" class="summary--text"
                                 >4 worki ubrań w dobrym stanie dla dzieci</span
                                 >
                             </li>
@@ -269,7 +269,7 @@
                             <h4>Adres odbioru:</h4>
                             <ul>
                                 <li>Prosta 51</li>
-                                <li>Warszawa</li>
+                                <li id="summaryCity">city</li>
                                 <li>99-098</li>
                                 <li>123 456 789</li>
                             </ul>

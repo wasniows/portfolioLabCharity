@@ -24,24 +24,24 @@ public class DonationController {
     private final DonationRepository donationRepository;
 
     @GetMapping("/form")
-    public String formDonation(Model model){
+    public String formDonation(Model model) {
         model.addAttribute("donation", new Donation());
         return "form";
     }
 
     @PostMapping("/form")
-    public String addDonation(Donation donation){
+    public String addDonation(Donation donation) {
         donationRepository.save(donation);
         return "form-confirmation";
     }
 
     @ModelAttribute("institutions")
-    public Collection<Institution> institutions(){
+    public Collection<Institution> institutions() {
         return this.institutionRepository.findAll();
     }
 
     @ModelAttribute("categories")
-    public Collection<Category> categories(){
-       return this.categoryRepository.findAll();
+    public Collection<Category> categories() {
+        return this.categoryRepository.findAll();
     }
 }
