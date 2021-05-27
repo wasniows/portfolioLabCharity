@@ -165,7 +165,8 @@ document.addEventListener("DOMContentLoaded", function() {
 
       // TODO: get data from inputs and show them in summary
 
-      document.getElementById("summaryCity").textContent = document.getElementById("city").value;
+      document.getElementById("summaryCity").textContent = "XXX";
+          document.getElementById("city").value;
 
     }
 
