@@ -6,4 +6,7 @@ import pl.coderslab.charity.entities.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
+    User findFirstByEmail(String email);
+    User findFirstById(Long userId);
 }

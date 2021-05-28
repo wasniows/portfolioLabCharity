@@ -17,6 +17,7 @@ public class Donation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column
     private int quantity;
 
     @OneToMany
@@ -25,18 +26,25 @@ public class Donation {
     @OneToOne
     private Institution institutions;
 
+    @Column
     private String street;
 
+    @Column
     private String city;
 
+    @Column
     private String zipCode;
 
+    @Column
     private String phone;
 
+    @Column
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate pickUpDate;
 
+    @Column
     private LocalTime pickUpTime;
 
+    @Column
     private String pickUpComment;
 }
