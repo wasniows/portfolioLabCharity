@@ -20,7 +20,7 @@ public class Donation {
     @Column
     private int quantity;
 
-    @OneToMany
+    @ManyToMany
     private List<Category> categories;
 
     @OneToOne

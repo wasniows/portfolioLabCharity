@@ -16,8 +16,9 @@
     <nav class="container container--70">
         <ul class="nav--actions">
             <li class="logged-user">
-                Witaj ${username}
+                <h3>Witaj ${username}</h3>
                 <ul class="dropdown">
+                    <li><a href="/">Start</a></li>
                     <li><a href="#">Profil</a></li>
                     <li><a href="#">Moje zbiórki</a></li>
                     <li><a href="<c:out value='perform_logout'/>">Wyloguj</a></li>

@@ -6,4 +6,7 @@ import pl.coderslab.charity.entities.Authority;
 
 @Repository
 public interface AuthorityRepository extends JpaRepository<Authority, Long> {
+
+    Authority findFirstByEmail(String email);
+
 }

@@ -46,6 +46,7 @@ public class CharityApplicationSecurityConfig extends WebSecurityConfigurerAdapt
                 .antMatchers("/register*").permitAll()
                 .antMatchers("/login*").permitAll()
                 .antMatchers("/resources/css/**", "/resources/images/**", "/resources/js/**").permitAll()
+                .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

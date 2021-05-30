@@ -6,8 +6,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import pl.coderslab.charity.entities.Institution;
+import pl.coderslab.charity.entities.User;
 import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.repositories.InstitutionRepository;
+import pl.coderslab.charity.repositories.UserRepository;
 
 import java.util.Collection;
 
@@ -17,6 +19,7 @@ public class HomeController {
 
     private final DonationRepository donationRepository;
     private final InstitutionRepository institutionRepository;
+
 
     @RequestMapping("/")
     public String homeAction(Model model) {

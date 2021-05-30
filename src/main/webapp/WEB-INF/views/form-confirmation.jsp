@@ -14,11 +14,11 @@
     <nav class="container container--70">
         <ul class="nav--actions">
             <li class="logged-user">
-                Witaj Agata
+                Witaj ${username}
                 <ul class="dropdown">
                     <li><a href="#">Profil</a></li>
                     <li><a href="#">Moje zbiórki</a></li>
-                    <li><a href="#">Wyloguj</a></li>
+                    <li><a href="<c:out value='perform_logout'/>">Wyloguj</a></li>
                 </ul>
             </li>
         </ul>

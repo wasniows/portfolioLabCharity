@@ -88,6 +88,7 @@
     <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/4</div>
 
+        <%--@elvariable id="donation" type="donation"--%>
         <form:form method="post" modelAttribute="donation">
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
@@ -96,6 +97,7 @@
 
                 <c:forEach items="${categories}" var="item">
                     <div class="form-group checkbox">
+<%--                    <div class="form-group form-group--checkbox">--%>
                         <label>
                             <form:checkbox
                                     path="categories"
@@ -105,23 +107,6 @@
                         </label>
                     </div>
                 </c:forEach>
-
-
-                    <%--                <div class="form-group form-group--checkbox">--%>
-                    <%--                    <label>--%>
-                    <%--                        <input type="checkbox" name="categories" value="toys" />--%>
-                    <%--                        <span class="checkbox"></span>--%>
-                    <%--                        <span class="description">zabawki</span>--%>
-                    <%--                    </label>--%>
-                    <%--                </div>--%>
-
-                    <%--                <div class="form-group form-group--checkbox">--%>
-                    <%--                    <label>--%>
-                    <%--                        <input type="checkbox" name="categories" value="books" />--%>
-                    <%--                        <span class="checkbox"></span>--%>
-                    <%--                        <span class="description">książki</span>--%>
-                    <%--                    </label>--%>
-                    <%--                </div>--%>
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn next-step">Dalej</button>
@@ -166,21 +151,6 @@
                         </label>
                     </div>
                 </c:forEach>
-
-
-                    <%--                <div class="form-group form-group--checkbox">--%>
-                    <%--                    <label>--%>
-                    <%--                        <input type="radio" name="organization" value="old"/>--%>
-                    <%--                        <span class="checkbox radio"></span>--%>
-                    <%--                        <span class="description">--%>
-                    <%--                  <div class="title">Fundacja “Dla dzieci"</div>--%>
-                    <%--                  <div class="subtitle">--%>
-                    <%--                    Cel i misja: Pomoc osobom znajdującym się w trudnej sytuacji--%>
-                    <%--                    życiowej.--%>
-                    <%--                  </div>--%>
-                    <%--                </span>--%>
-                    <%--                    </label>--%>
-                    <%--                </div>--%>
 
                 <div class="form-group form-group--buttons">
                     <button type="button" class="btn prev-step">Wstecz</button>
@@ -301,6 +271,6 @@
 
 <%@ include file="footer.jsp" %>
 
-<script src="resources/js/app.js"></script>
+<script src="../../resources/js/app.js"></script>
 </body>
 </html>

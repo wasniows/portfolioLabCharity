@@ -40,6 +40,12 @@ public class User {
     @Column
     private boolean enabled;
 
+    @Column
+    private boolean access;
+
+    @OneToOne
+    private Authority authority;
+
     @Transient
     private String matchingPassword;
 
