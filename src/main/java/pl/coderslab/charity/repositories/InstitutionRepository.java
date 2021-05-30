@@ -6,4 +6,7 @@ import pl.coderslab.charity.entities.Institution;
 
 @Repository
 public interface InstitutionRepository extends JpaRepository<Institution, Long> {
+
+    Institution findFirstById(Long id);
+
 }

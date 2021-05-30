@@ -12,11 +12,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
-
 @Configuration
 @EnableWebSecurity
 public class CharityApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
-
 
     private final DataSource dataSource;
 
@@ -49,13 +47,13 @@ public class CharityApplicationSecurityConfig extends WebSecurityConfigurerAdapt
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .anyRequest().authenticated()
                 .and()
-            .formLogin()
+                .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login?error=true")
                 .permitAll()
                 .defaultSuccessUrl("/user", true)
                 .and()
-            .logout()
+                .logout()
                 .logoutSuccessUrl("/login?logout=true")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/perform_logout", "GET"))
                 .invalidateHttpSession(true)

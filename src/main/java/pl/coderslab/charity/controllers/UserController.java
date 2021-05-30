@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.entities.Authority;
 import pl.coderslab.charity.entities.User;
+import pl.coderslab.charity.models.Password;
 import pl.coderslab.charity.repositories.AuthorityRepository;
 import pl.coderslab.charity.repositories.UserRepository;
 
@@ -24,7 +25,80 @@ public class UserController {
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder encoder;
 
-    @RequestMapping("admin/userAccess/{id}")
+    @RequestMapping("/user/edit/{id}")
+    public String editUserForm(@PathVariable long id, Model model) {
+        User user = userRepository.findFirstById(id);
+        model.addAttribute("user", user);
+        return "editUser";
+    }
+
+    @GetMapping("/user/edit")
+    public String editUser(@Valid User user, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "editUser";
+        }
+
+        if (!user.getEmail().equals(userRepository.findFirstById(user.getId()).getEmail())) {
+            if (userRepository.findFirstByEmail(user.getEmail()) != null) {
+                result.rejectValue("email", "error.user", "Taki email już istnieje");
+                model.addAttribute("user", user);
+                return "editUser";
+            }
+        }
+        User userToChange = userRepository.findFirstById(user.getId());
+        Authority authority = authorityRepository.findFirstByEmail(userToChange.getEmail());
+        authority.setEmail(user.getEmail());
+        authorityRepository.save(authority);
+
+        userToChange.setEmail(user.getEmail());
+        userToChange.setFirstName(user.getFirstName());
+        userToChange.setLastName(user.getLastName());
+        userRepository.save(userToChange);
+
+        return "changeUser-confirmation";
+    }
+
+    @RequestMapping("/user/changePassword/{id}")
+    public String changePasswordForm(@PathVariable long id, Model model) {
+        User user = userRepository.findFirstById(id);
+        Password password = new Password();
+        password.setEmail(user.getEmail());
+        model.addAttribute("password", password);
+        return "changePassword";
+    }
+
+    @GetMapping("/user/changePassword")
+    public String changePassword(@Valid Password password, BindingResult result, Model model) {
+
+        User user = userRepository.findFirstByEmail(password.getEmail());
+        if (!encoder.matches(password.getPassword(), user.getPassword())) {
+            result.rejectValue("password", "error.password", "Błędne aktualne hasło");
+            model.addAttribute("password", password);
+            return "changePassword";
+        }
+
+        if (!password.getNewPassword().equals(password.getMatchingNewPassword())) {
+            result.rejectValue("email", "error.password", "Błąd potwierdzenia nowego hasła");
+            model.addAttribute("password", password);
+            return "changePassword";
+        }
+
+        user.setPassword(encoder.encode(password.getNewPassword()));
+        userRepository.save(user);
+        return "changePassword-confirmation";
+    }
+
+
+    @RequestMapping("/user/profil")
+    public String userProfil(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        String email = userDetails.getUsername();
+        User user = userRepository.findFirstByEmail(email);
+        model.addAttribute("user", user);
+        return "profil";
+    }
+
+    @RequestMapping("/admin/userAccess/{id}")
     public String userAccess(@PathVariable long id) {
         User user = userRepository.findFirstById(id);
         boolean access = user.isAccess();
@@ -34,14 +108,14 @@ public class UserController {
         return "redirect:/user";
     }
 
-    @RequestMapping("admin/userAuthority/{id}")
+    @RequestMapping("/admin/userAuthority/{id}")
     public String userAuthority(@PathVariable long id) {
         User user = userRepository.findFirstById(id);
         Authority authority = authorityRepository.findFirstByEmail(user.getEmail());
         String authorityName = authority.getAuthority();
-        if (authorityName.equals("ADMIN")){
+        if (authorityName.equals("ADMIN")) {
             authorityName = "USER";
-        }else {
+        } else {
             authorityName = "ADMIN";
         }
         authority.setAuthority(authorityName);

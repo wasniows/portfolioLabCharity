@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -23,7 +24,8 @@ public class Donation {
     @ManyToMany
     private List<Category> categories;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER)
+    @NotNull
     private Institution institutions;
 
     @Column
