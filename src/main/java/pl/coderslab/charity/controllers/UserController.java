@@ -71,6 +71,10 @@ public class UserController {
     @GetMapping("/user/changePassword")
     public String changePassword(@Valid Password password, BindingResult result, Model model) {
 
+        if (result.hasErrors()) {
+            return "changePassword";
+        }
+
         User user = userRepository.findFirstByEmail(password.getEmail());
         if (!encoder.matches(password.getPassword(), user.getPassword())) {
             result.rejectValue("password", "error.password", "Błędne aktualne hasło");

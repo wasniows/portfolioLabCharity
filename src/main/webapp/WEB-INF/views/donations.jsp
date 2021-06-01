@@ -9,40 +9,44 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
-    <title>Admin</title>
+    <title>Donations</title>
     <link rel="stylesheet" href="/resources/css/style.css"/>
     <link rel="stylesheet" href="/resources/css/bootstrap.css"/>
 </head>
 <body>
 
-<%@ include file="headerAdmin.jsp" %>
+<%@ include file="headerUser.jsp" %>
 
 <section class="login-page" >
 
-    <h2>Panel Admina</h2>
+    <h2>Moje zbiórki</h2>
     <div>
         <table class="table font-large">
             <thead>
             <tr>
-                <th>Imię</th>
-                <th>Nazwisko</th>
-                <th>Email</th>
-                <th>Uprawnienia</th>
-                <th>Dostęp</th>
+                <th>Liczba worków</th>
+                <th>Kategorie</th>
+                <th>Instytucja</th>
+                <th>Data odbioru</th>
+                <th>Odebrane</th>
                 <td></td>
                 <td></td>
             </tr>
             </thead>
             <tbody>
-            <c:forEach items='${users}' var="user">
+            <c:forEach items='${myDonations}' var="donation">
                 <tr>
-                    <td>${user.firstName}</td>
-                    <td>${user.lastName}</td>
-                    <td>${user.email}</td>
-                    <td>${user.authority.authority}</td>
-                    <td>${user.access}</td>
-                    <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/admin/userAccess/${user.id}">Zmień dostęp</a></td>
-                    <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/admin/userAuthority/${user.id}">Zmień rolę</a></td>
+                    <td>${donation.quantity}</td>
+                    <td>
+                        <c:forEach items="${donation.categories}" var="category">
+                            ${category.name}<br>
+                        </c:forEach>
+                    </td>
+                    <td>${donation.institution.name}</td>
+                    <td>${donation.pickUpDate}</td>
+                    <td>${donation.received}</td>
+                    <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/admin/userAccess/${user.id}">Szczegóły</a></td>
+                    <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/admin/userAuthority/${user.id}">Potwierdź odbiór</a></td>
                 </tr>
             </c:forEach>
             </tbody>

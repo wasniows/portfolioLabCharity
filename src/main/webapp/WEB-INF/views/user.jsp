@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
-    <link rel="stylesheet" href="../../resources/css/style.css" />
+    <link rel="stylesheet" href="/resources/css/style.css" />
 </head>
 <body>
 <header class="header--form-page">
@@ -20,7 +20,7 @@
                 <ul class="dropdown">
                     <li><a href="/">Start</a></li>
                     <li><a href="/user/profil">Profil</a></li>
-                    <li><a href="#">Moje zbiórki</a></li>
+                    <li><a href="/donations">Moje zbiórki</a></li>
                     <li><a href="<c:out value='perform_logout'/>">Wyloguj</a></li>
                 </ul>
             </li>
@@ -66,6 +66,6 @@
 
 <%@ include file="footer.jsp" %>
 
-<script src="../../resources/js/app.js"></script>
+<script src="/resources/js/app.js"></script>
 </body>
 </html>

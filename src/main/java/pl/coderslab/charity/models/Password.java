@@ -2,6 +2,8 @@ package pl.coderslab.charity.models;
 
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
+
 @Data
 public class Password {
 
@@ -9,6 +11,7 @@ public class Password {
 
     private String password;
 
+    @NotEmpty(message = "{newPassword.notEmpty}")
     private String newPassword;
 
     private String matchingNewPassword;

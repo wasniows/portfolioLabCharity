@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>Document</title>
-    <link rel="stylesheet" href="../../resources/css/style.css"/>
+    <link rel="stylesheet" href="/resources/css/style.css"/>
 </head>
 <body>
 <header class="header--form-page">
@@ -21,8 +21,9 @@
             <li class="logged-user">
                 Witaj ${username}
                 <ul class="dropdown">
-                    <li><a href="#">Profil</a></li>
-                    <li><a href="#">Moje zbiórki</a></li>
+                    <li><a href="/">Start</a></li>
+                    <li><a href="/user/profil">Profil</a></li>
+                    <li><a href="/donations">Moje zbiórki</a></li>
                     <li><a href="<c:out value='perform_logout'/>">Wyloguj</a></li>
                 </ul>
             </li>
@@ -40,6 +41,7 @@
     <div class="slogan container container--90">
         <div class="slogan--item">
             <h1>
+
                 Oddaj rzeczy, których już nie chcesz<br/>
                 <span class="uppercase">potrzebującym</span>
             </h1>
@@ -92,6 +94,7 @@
         <form:form method="post" modelAttribute="donation">
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
+                <form:errors path="*" cssClass="errorblock" element="div" /><br>
                 <h3>Zaznacz co chcesz oddać:</h3>
 
 
@@ -134,18 +137,18 @@
             <!-- STEP 4 -->
             <div data-step="3">
                 <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-
-                <c:forEach items="${institutions}" var="item">
+1
+                <c:forEach items="${institutions}" var="institution">
                     <div class="form-group form-group--checkbox">
                         <label>
                             <form:radiobutton
-                                    path="institutions"
-                                    value="${item.id}"/>
+                                    path="institution"
+                                    value="${institution.id}"/>
                             <span class="checkbox radio"></span>
                             <span class="description">
-                  <div class="title">${item.name}</div>
+                  <div class="title">${institution.name}</div>
                   <div class="subtitle">
-                    Cel i misja: ${item.description}
+                    Cel i misja: ${institution.description}
                   </div>
                 </span>
                         </label>
@@ -271,6 +274,6 @@
 
 <%@ include file="footer.jsp" %>
 
-<script src="../../resources/js/app.js"></script>
+<script src="/resources/js/app.js"></script>
 </body>
 </html>
