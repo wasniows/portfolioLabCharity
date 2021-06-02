@@ -29,6 +29,7 @@
                 <th>Instytucja</th>
                 <th>Data odbioru</th>
                 <th>Odebrane</th>
+                <th>Potwierdzenie odbioru</th>
                 <td></td>
                 <td></td>
             </tr>
@@ -44,9 +45,16 @@
                     </td>
                     <td>${donation.institution.name}</td>
                     <td>${donation.pickUpDate}</td>
-                    <td>${donation.received}</td>
-                    <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/admin/userAccess/${user.id}">Szczegóły</a></td>
-                    <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/admin/userAuthority/${user.id}">Potwierdź odbiór</a></td>
+                    <td>
+                        <c:out value="${donation.received == false ? 'NIE': 'TAK'}"/>
+                    </td>
+                    <td>${donation.confirmDate}</td>
+                    <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/donationDetails/${donation.id}">Szczegóły</a></td>
+                    <td>
+                        <c:if test="${donation.received == false}">
+                        <a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/donation/confirmation/${donation.id}">Potwierdź odbiór</a>
+                        </c:if>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>

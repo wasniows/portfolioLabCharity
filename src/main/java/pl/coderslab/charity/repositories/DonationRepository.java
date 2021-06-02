@@ -11,6 +11,8 @@ import java.util.List;
 @Repository
 public interface DonationRepository extends JpaRepository<Donation, Long> {
 
+    Donation findFirstById(Long donationId);
+
     @Query("SELECT SUM(d.quantity) FROM Donation d")
     public Integer quantityOfAllBags();
 

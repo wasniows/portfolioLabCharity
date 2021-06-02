@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.charity.entities.Category;
 import pl.coderslab.charity.entities.Donation;
@@ -19,6 +20,7 @@ import pl.coderslab.charity.repositories.InstitutionRepository;
 import pl.coderslab.charity.repositories.UserRepository;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,6 +40,23 @@ public class DonationController {
         List<Donation> myDonations = donationRepository.myDonations(user.getId());
         model.addAttribute("myDonations", myDonations);
         return "donations";
+    }
+
+    @GetMapping("/donationDetails/{id}")
+    public String donationDetails(@PathVariable Long id, Model model){
+        Donation donation = donationRepository.findFirstById(id);
+        model.addAttribute("donation", donation);
+        return "donationDetails";
+    }
+
+    @GetMapping("/donation/confirmation/{id}")
+    public String donationComfirmation(@PathVariable Long id){
+        Donation donation = donationRepository.findFirstById(id);
+        LocalDate localDate = LocalDate.now();
+        donation.setConfirmDate(localDate);
+        donation.setReceived(true);
+        donationRepository.save(donation);
+        return "redirect:/donations";
     }
 
     @GetMapping("/form")
