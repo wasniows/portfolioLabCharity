@@ -1,6 +1,7 @@
 package pl.coderslab.charity.controllers;
 
 import lombok.Data;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import pl.coderslab.charity.repositories.CategoryRepository;
 import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.repositories.InstitutionRepository;
 import pl.coderslab.charity.repositories.UserRepository;
+import pl.coderslab.charity.utils.OnAddDonationEvent;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -32,6 +34,7 @@ public class DonationController {
     private final InstitutionRepository institutionRepository;
     private final DonationRepository donationRepository;
     private final UserRepository userRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @GetMapping("/donations")
     public String myDonations(@AuthenticationPrincipal UserDetails userDetails ,Model model){
@@ -79,6 +82,10 @@ public class DonationController {
         donation.setUser(user);
         donation.setReceived(false);
         donationRepository.save(donation);
+
+        //send email
+        eventPublisher.publishEvent(new OnAddDonationEvent(donation));
+
         return "form-confirmation";
     }
 
