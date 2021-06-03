@@ -40,7 +40,9 @@
                     <td>${user.lastName}</td>
                     <td>${user.email}</td>
                     <td>${user.authority.authority}</td>
-                    <td>${user.access}</td>
+                    <td>
+                        <c:out value="${user.access == false ? 'NIE': 'TAK'}"/>
+                    </td>
                     <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/admin/userAccess/${user.id}">Zmień dostęp</a></td>
                     <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/admin/userAuthority/${user.id}">Zmień rolę</a></td>
                 </tr>
@@ -50,6 +52,6 @@
     </div>
 
 </section>
-<script src="../../resources/js/app.js"></script>
+<script src="/resources/js/app.js"></script>
 </body>
 </html>

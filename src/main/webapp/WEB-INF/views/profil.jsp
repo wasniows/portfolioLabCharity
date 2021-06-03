@@ -14,19 +14,8 @@
     <link rel="stylesheet" href="/resources/css/style.css" />
 </head>
 <body>
-<header class="help">
-    <nav class="container container--70">
-        <br>
-        <ul>
-            <li><a href="${pageContext.request.contextPath}/" class="btn btn--without-border">Start</a></li>
-            <li><a href="${pageContext.request.contextPath}/#steps" class="btn btn--without-border">O co chodzi?</a></li>
-            <li><a href="${pageContext.request.contextPath}/#about-us" class="btn btn--without-border">O nas</a></li>
-            <li><a href="${pageContext.request.contextPath}/#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
-            <li><a href="${pageContext.request.contextPath}form" class="btn btn--without-border">Przekaż dary</a></li>
-            <li><a href="${pageContext.request.contextPath}/#contact" class="btn btn--without-border">Kontakt</a></li>
-        </ul>
-    </nav>
-</header>
+
+<%@ include file="headerUser.jsp" %>
 
 <section class="login-page">
     <h2>Moje dane</h2>
@@ -48,6 +37,6 @@
         </div>
     </form:form>
 </section>
-
+<script src="/resources/js/app.js"></script>
 </body>
 </html>

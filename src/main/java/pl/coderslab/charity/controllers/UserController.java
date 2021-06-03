@@ -1,6 +1,7 @@
 package pl.coderslab.charity.controllers;
 
 import lombok.Data;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -10,9 +11,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.entities.Authority;
 import pl.coderslab.charity.entities.User;
+import pl.coderslab.charity.entities.VerificationToken;
 import pl.coderslab.charity.models.Password;
 import pl.coderslab.charity.repositories.AuthorityRepository;
 import pl.coderslab.charity.repositories.UserRepository;
+import pl.coderslab.charity.repositories.VerificationTokenRepository;
+import pl.coderslab.charity.services.UserService;
+import pl.coderslab.charity.utils.OnCreatedUserEvent;
 
 import javax.validation.Valid;
 import java.util.Collection;
@@ -24,6 +29,9 @@ public class UserController {
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder encoder;
+    private final UserService userService;
+    private final VerificationTokenRepository verificationTokenRepository;
+    private final ApplicationEventPublisher eventPublisher;
 
     @RequestMapping("/user/edit/{id}")
     public String editUserForm(@PathVariable long id, Model model) {
@@ -131,8 +139,8 @@ public class UserController {
     public String User(@AuthenticationPrincipal UserDetails userDetails, Model model) {
         String email = userDetails.getUsername();
         String role = authorityRepository.findFirstByEmail(email).getAuthority();
-        User user = userRepository.findFirstByEmail(email);
-        model.addAttribute("username", user.getFirstName());
+        String firstName = userRepository.findFirstByEmail(email).getFirstName();
+        model.addAttribute("firstName", firstName);
 
         if (role.equals("ADMIN")) {
             return "admin";
@@ -170,16 +178,23 @@ public class UserController {
             return "register";
         }
 
+        //create user
         user.setPassword(encoder.encode(user.getPassword()));
-        user.setEnabled(true);
+        user.setEnabled(false);
         user.setAccess(true);
-        Authority authority = new Authority(user.getEmail(), "USER");
-        authorityRepository.save(authority);
-        user.setAuthority(authorityRepository.findFirstByEmail(user.getEmail()));
-        userRepository.save(user);
+        user = userService.create(user);
 
+        //send email account confirmation
+        eventPublisher.publishEvent(new OnCreatedUserEvent(user, "/"));
+        return "registerSendMail";
+
+    }
+
+    @GetMapping("registerConfirm")
+    public String registerConfirm(@RequestParam("token") String token){
+        VerificationToken verificationToken = verificationTokenRepository.findFirstByToken(token);
+        userService.confirmUser(token);
         return "register-confirmation";
-
     }
 
     @ModelAttribute("users")

@@ -24,7 +24,7 @@
 
     <div class="slogan container container--90">
         <h2>
-            Twoje konto zostało aktywowane.
+            Na podany przy rejestracji adres email został wysłany link aktywacyjny.
         </h2>
     </div>
 </header>

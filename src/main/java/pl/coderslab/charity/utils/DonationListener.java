@@ -34,7 +34,10 @@ public class DonationListener implements ApplicationListener<OnAddDonationEvent>
         String subject = "Potwierdzenie zarejestrowania darowizny";
         String message = "Przekazany dar dla " + donation.getInstitution().getName() +
                 "\r\n" + "Dzień odbioru: " + donation.getPickUpDate() +
-                "\r\n" + "Godzina odbioru: " + donation.getPickUpTime();
+                "\r\n" + "Godzina odbioru: " + donation.getPickUpTime() +
+                "\r\n" +
+                "\r\n" + "Pozdrawiamy," +
+                "\r\n" + "Zespół Projektu \"Oddam w dobre ręce\"";
 
         //send email
         SimpleMailMessage email = new SimpleMailMessage();
@@ -42,6 +45,5 @@ public class DonationListener implements ApplicationListener<OnAddDonationEvent>
         email.setSubject(subject);
         email.setText(message);
         mailSender.send(email);
-
     }
 }

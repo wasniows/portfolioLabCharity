@@ -5,17 +5,21 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import pl.coderslab.charity.entities.Donation;
 import pl.coderslab.charity.entities.Institution;
+import pl.coderslab.charity.repositories.DonationRepository;
 import pl.coderslab.charity.repositories.InstitutionRepository;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Controller
 public class InstitutionController {
 
     private final InstitutionRepository institutionRepository;
+    private final DonationRepository donationRepository;
 
     @RequestMapping("/admin/institutions")
     public String getInstitution(){
@@ -40,6 +44,10 @@ public class InstitutionController {
 
     @RequestMapping("/admin/institution/del/{id}")
     public String deleteInstitution(@PathVariable long id){
+        List<Donation> donationList = donationRepository.donationsByInstitutionId(id);
+        if (donationList.size()>0){
+            return "noInstitutionDelete";
+        }
         Institution institution = institutionRepository.findFirstById(id);
         institutionRepository.delete(institution);
         return "redirect:/admin/institutions";

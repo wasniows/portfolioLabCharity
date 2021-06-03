@@ -22,4 +22,6 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
     @Query(value = "SELECT * FROM donations WHERE user_id = :userId", nativeQuery = true)
     List<Donation> myDonations(@Param("userId") Long userId);
 
+    @Query(value = "SELECT * FROM donations WHERE institution_id = :institutionId", nativeQuery = true)
+    List<Donation> donationsByInstitutionId(@Param("institutionId") Long institutionId);
 }
