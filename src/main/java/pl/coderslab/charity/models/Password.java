@@ -16,4 +16,6 @@ public class Password {
 
     private String matchingNewPassword;
 
+    private String token;
+
 }
