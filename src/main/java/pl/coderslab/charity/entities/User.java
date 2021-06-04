@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Data
@@ -33,6 +34,7 @@ public class User {
     @Column(length = 60)
     private String lastName;
 
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "{weak.password}")
     @NotEmpty(message = "{password.notEmpty}")
     @Column(length = 100)
     private String password;
@@ -48,5 +50,8 @@ public class User {
 
     @Transient
     private String matchingPassword;
+
+    @Transient
+    private ChangeToken changeToken;
 
 }
