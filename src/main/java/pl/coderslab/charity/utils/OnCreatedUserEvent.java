@@ -1,6 +1,5 @@
 package pl.coderslab.charity.utils;
 
-import lombok.Data;
 import org.springframework.context.ApplicationEvent;
 import pl.coderslab.charity.entities.User;
 

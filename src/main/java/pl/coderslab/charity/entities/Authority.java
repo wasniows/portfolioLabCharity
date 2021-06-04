@@ -1,6 +1,5 @@
 package pl.coderslab.charity.entities;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;

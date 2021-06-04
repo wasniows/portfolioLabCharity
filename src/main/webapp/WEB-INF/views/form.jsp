@@ -31,9 +31,11 @@
 
         <ul>
             <li><a href="/" class="btn btn--without-border">Start</a></li>
-            <li><a href="${pageContext.request.contextPath}/#steps" class="btn btn--without-border">O co chodzi?</a></li>
+            <li><a href="${pageContext.request.contextPath}/#steps" class="btn btn--without-border">O co chodzi?</a>
+            </li>
             <li><a href="${pageContext.request.contextPath}/#about-us" class="btn btn--without-border">O nas</a></li>
-            <li><a href="${pageContext.request.contextPath}/#help" class="btn btn--without-border">Fundacje i organizacje</a></li>
+            <li><a href="${pageContext.request.contextPath}/#help" class="btn btn--without-border">Fundacje i
+                organizacje</a></li>
             <li><a href="${pageContext.request.contextPath}/#contact" class="btn btn--without-border">Kontakt</a></li>
         </ul>
     </nav>
@@ -94,13 +96,12 @@
         <form:form method="post" modelAttribute="donation">
             <!-- STEP 1: class .active is switching steps -->
             <div data-step="1" class="active">
-                <form:errors path="*" cssClass="errorblock" element="div" /><br>
+                <form:errors path="*" cssClass="errorblock" element="div"/><br>
                 <h3>Zaznacz co chcesz oddać:</h3>
-
 
                 <c:forEach items="${categories}" var="item">
                     <div class="form-group checkbox">
-<%--                    <div class="form-group form-group--checkbox">--%>
+                            <%--<div class="form-group form-group--checkbox">--%>
                         <label>
                             <form:checkbox
                                     path="categories"
@@ -137,7 +138,7 @@
             <!-- STEP 4 -->
             <div data-step="3">
                 <h3>Wybierz organizacje, której chcesz pomóc:</h3>
-1
+                1
                 <c:forEach items="${institutions}" var="institution">
                     <div class="form-group form-group--checkbox">
                         <label>
@@ -146,11 +147,11 @@
                                     value="${institution.id}"/>
                             <span class="checkbox radio"></span>
                             <span class="description">
-                  <div class="title">${institution.name}</div>
-                  <div class="subtitle">
-                    Cel i misja: ${institution.description}
-                  </div>
-                </span>
+                                  <div class="title">${institution.name}</div>
+                                  <div class="subtitle">
+                                    Cel i misja: ${institution.description}
+                                   </div>
+                              </span>
                         </label>
                     </div>
                 </c:forEach>
@@ -228,7 +229,7 @@
                                 >
 
                             </li>
-                            <li >
+                            <li>
                                 <span class="summary--text">Kategoria:&nbsp</span>
                                 <span id="listOfCategories"></span>
                             </li>

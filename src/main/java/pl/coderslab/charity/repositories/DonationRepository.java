@@ -14,10 +14,10 @@ public interface DonationRepository extends JpaRepository<Donation, Long> {
     Donation findFirstById(Long donationId);
 
     @Query("SELECT SUM(d.quantity) FROM Donation d")
-    public Integer quantityOfAllBags();
+    Integer quantityOfAllBags();
 
     @Query("SELECT COUNT(d) FROM Donation d")
-    public Integer quantityOfAllDonations();
+    Integer quantityOfAllDonations();
 
     @Query(value = "SELECT * FROM donations WHERE user_id = :userId", nativeQuery = true)
     List<Donation> myDonations(@Param("userId") Long userId);

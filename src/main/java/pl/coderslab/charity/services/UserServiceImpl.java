@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService{
 
         //confirm user
         User user = userRepository.findFirstByEmail(verificationToken.getEmail());
-        Authority authority = new Authority(user.getEmail(), "USER");;
+        Authority authority = new Authority(user.getEmail(), "USER");
         authorityRepository.save(authority);
         user.setAuthority(authorityRepository.findFirstByEmail(user.getEmail()));
         user.setEnabled(true);
