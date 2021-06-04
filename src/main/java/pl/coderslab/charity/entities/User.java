@@ -34,7 +34,7 @@ public class User {
     @Column(length = 60)
     private String lastName;
 
-    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$", message = "{weak.password}")
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,100}$", message = "{weak.password}")
     @NotEmpty(message = "{password.notEmpty}")
     @Column(length = 100)
     private String password;

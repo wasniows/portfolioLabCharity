@@ -31,6 +31,7 @@
                 <th>Dostęp</th>
                 <td></td>
                 <td></td>
+                <td></td>
             </tr>
             </thead>
             <tbody>
@@ -45,6 +46,7 @@
                     </td>
                     <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/admin/userAccess/${user.id}">Zmień dostęp</a></td>
                     <td><a class="btn btn-outline-primary btn--large" href="${pageContext.request.contextPath}/admin/userAuthority/${user.id}">Zmień rolę</a></td>
+                    <td><a class="btn btn-outline-danger btn--large" href="${pageContext.request.contextPath}/admin/userDelete/${user.id}">Usuń</a></td>
                 </tr>
             </c:forEach>
             </tbody>

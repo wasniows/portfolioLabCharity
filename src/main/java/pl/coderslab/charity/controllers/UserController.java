@@ -9,21 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import pl.coderslab.charity.entities.Authority;
-import pl.coderslab.charity.entities.ChangeToken;
-import pl.coderslab.charity.entities.User;
-import pl.coderslab.charity.entities.VerificationToken;
+import pl.coderslab.charity.entities.*;
 import pl.coderslab.charity.models.Password;
-import pl.coderslab.charity.repositories.AuthorityRepository;
-import pl.coderslab.charity.repositories.ChangeTokenRepository;
-import pl.coderslab.charity.repositories.UserRepository;
-import pl.coderslab.charity.repositories.VerificationTokenRepository;
+import pl.coderslab.charity.repositories.*;
 import pl.coderslab.charity.services.UserService;
 import pl.coderslab.charity.utils.OnChangeEmailEvent;
 import pl.coderslab.charity.utils.OnCreatedUserEvent;
 
 import javax.validation.Valid;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 @Controller
@@ -36,6 +31,7 @@ public class UserController {
     private final VerificationTokenRepository verificationTokenRepository;
     private final ApplicationEventPublisher eventPublisher;
     private final ChangeTokenRepository changeTokenRepository;
+    private final DonationRepository donationRepository;
 
     @RequestMapping("/user/edit/{id}")
     public String editUserForm(@PathVariable long id, Model model) {
@@ -97,9 +93,9 @@ public class UserController {
     }
 
     @GetMapping("/emailChange")
-    public String changeEmainConfirm(@RequestParam("token") String token){
-            ChangeToken changeToken = changeTokenRepository.findFirstByToken(token);
-            userService.confirmChangeEmail(changeToken.getToken());
+    public String changeEmainConfirm(@RequestParam("token") String token) {
+        ChangeToken changeToken = changeTokenRepository.findFirstByToken(token);
+        userService.confirmChangeEmail(changeToken.getToken());
         return "changeEmail-confirmation";
     }
 
@@ -157,8 +153,15 @@ public class UserController {
     }
 
     @RequestMapping("/admin/userAuthority/{id}")
-    public String userAuthority(@PathVariable long id) {
-        User user = userRepository.findFirstById(id);
+    public String userAuthority(@PathVariable long id, @AuthenticationPrincipal UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        User user = userRepository.findFirstByEmail(email);
+
+        if (user.getId() == id) {
+            return "noDelete";
+        }
+
+        user = userRepository.findFirstById(id);
         Authority authority = authorityRepository.findFirstByEmail(user.getEmail());
         String authorityName = authority.getAuthority();
         if (authorityName.equals("ADMIN")) {
@@ -170,6 +173,28 @@ public class UserController {
         authorityRepository.save(authority);
         return "redirect:/user";
     }
+
+
+    @RequestMapping("/admin/userDelete/{id}")
+    public String userDelete(@PathVariable long id, @AuthenticationPrincipal UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        User user = userRepository.findFirstByEmail(email);
+        if (user.getId() == id) {
+            return "noDelete";
+        }
+
+        List<Donation> donationList = donationRepository.myDonations(id);
+
+        if (donationList.size()>0){
+            return "noDelete";
+        }
+        user = userRepository.findFirstById(id);
+        userRepository.delete(user);
+        Authority authority = authorityRepository.findFirstByEmail(user.getEmail());
+        authorityRepository.delete(authority);
+        return "redirect:/user";
+    }
+
 
     @GetMapping("/user")
     public String User(@AuthenticationPrincipal UserDetails userDetails, Model model) {

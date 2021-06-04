@@ -3,6 +3,7 @@ package pl.coderslab.charity.models;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Data
 public class Password {
@@ -11,6 +12,7 @@ public class Password {
 
     private String password;
 
+    @Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,100}$", message = "{weak.password}")
     @NotEmpty(message = "{newPassword.notEmpty}")
     private String newPassword;
 
