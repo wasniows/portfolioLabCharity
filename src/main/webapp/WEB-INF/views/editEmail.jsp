@@ -10,34 +10,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Document</title>
+    <title>Edit email</title>
     <link rel="stylesheet" href="/resources/css/style.css" />
 </head>
 <body>
 
-<%@ include file="headerUser.jsp" %>
-
 <section class="login-page">
-    <h2>Moje dane</h2>
+    <h2>Zmiana adresu email. Krok 1/2.</h2>
 
-    <%--@elvariable id="user" type="user"--%>
-    <form:form modelAttribute="user" method="post">
+
+    <%--@elvariable id="changeToken" type="changeToken"--%>
+    <form:form modelAttribute="changeToken" method="post" action="/emailChange">
+        <form:errors path="*" cssClass="errorblock" element="div" /><br>
         <div class="form-group">
-            <span class="font-large">Email:  ${user.email}</span>
-         </div>
-        <div class="form-group">
-            <span class="font-large">Imię:  ${user.firstName}</span>
+            <form:input type="email" path="newEmail" placeholder="Nowy Email" />
         </div>
-        <div class="form-group">
-            <span class="font-large">Nazwisko:  ${user.lastName}</span>
-        </div>
+        <form:hidden path="email" />
         <div class="form-group form-group--buttons">
-            <a href="/user/edit/${user.id}" class="btn">Zmiana danych</a>
-            <a href="/user/changePassword/${user.id}" class="btn">Zmiana hasła</a>
-            <a href="/emailChange/${user.id}" class="btn">Zmiana email</a>
+            <button class="btn" type="submit">Wyślij</button>
+            <a href="/user/profil" class="btn btn--without-border">Anuluj</a>
         </div>
     </form:form>
 </section>
-<script src="/resources/js/app.js"></script>
+
+<%@ include file="footer.jsp" %>
+
 </body>
 </html>

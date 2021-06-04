@@ -38,7 +38,7 @@
             <form:hidden  path="email" />
         </div>
         <div class="form-group">
-            <form:password path="password" placeholder="Obecne hasło" />
+            <form:password path="password" placeholder="Aktualne hasło" />
         </div>
         <div class="form-group">
             <form:password path="newPassword" placeholder="Nowe hasło" />

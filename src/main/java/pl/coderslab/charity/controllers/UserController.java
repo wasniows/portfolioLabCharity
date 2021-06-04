@@ -10,13 +10,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.charity.entities.Authority;
+import pl.coderslab.charity.entities.ChangeToken;
 import pl.coderslab.charity.entities.User;
 import pl.coderslab.charity.entities.VerificationToken;
 import pl.coderslab.charity.models.Password;
 import pl.coderslab.charity.repositories.AuthorityRepository;
+import pl.coderslab.charity.repositories.ChangeTokenRepository;
 import pl.coderslab.charity.repositories.UserRepository;
 import pl.coderslab.charity.repositories.VerificationTokenRepository;
 import pl.coderslab.charity.services.UserService;
+import pl.coderslab.charity.utils.OnChangeEmailEvent;
 import pl.coderslab.charity.utils.OnCreatedUserEvent;
 
 import javax.validation.Valid;
@@ -32,6 +35,7 @@ public class UserController {
     private final UserService userService;
     private final VerificationTokenRepository verificationTokenRepository;
     private final ApplicationEventPublisher eventPublisher;
+    private final ChangeTokenRepository changeTokenRepository;
 
     @RequestMapping("/user/edit/{id}")
     public String editUserForm(@PathVariable long id, Model model) {
@@ -47,13 +51,6 @@ public class UserController {
             return "editUser";
         }
 
-        if (!user.getEmail().equals(userRepository.findFirstById(user.getId()).getEmail())) {
-            if (userRepository.findFirstByEmail(user.getEmail()) != null) {
-                result.rejectValue("email", "error.user", "Taki email już istnieje");
-                model.addAttribute("user", user);
-                return "editUser";
-            }
-        }
         User userToChange = userRepository.findFirstById(user.getId());
         Authority authority = authorityRepository.findFirstByEmail(userToChange.getEmail());
         authority.setEmail(user.getEmail());
@@ -65,6 +62,45 @@ public class UserController {
         userRepository.save(userToChange);
 
         return "changeUser-confirmation";
+    }
+
+    @RequestMapping("/emailChange/{id}")
+    public String ChangeEmailForm(@PathVariable long id, Model model) {
+        User user = userRepository.findFirstById(id);
+        ChangeToken changeToken = new ChangeToken();
+        changeToken.setEmail(user.getEmail());
+        model.addAttribute("changeToken", changeToken);
+        return "editEmail";
+    }
+
+    @PostMapping("/emailChange")
+    public String changeEmail(@Valid ChangeToken changeToken, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            return "editEmail";
+        }
+
+        if (userRepository.findFirstByEmail(changeToken.getNewEmail()) != null) {
+            result.rejectValue("newEmail", "error.changeToken", "Taki email już istnieje");
+            model.addAttribute("changeToken", changeToken);
+            return "editEmail";
+        }
+
+        User user = userRepository.findFirstByEmail(changeToken.getEmail());
+        user.setChangeToken(changeToken);
+        userRepository.save(user);
+
+        //send change email confirmation
+        eventPublisher.publishEvent(new OnChangeEmailEvent(user, "/"));
+
+        return "changeEmailSend";
+    }
+
+    @GetMapping("/emailChange")
+    public String changeEmainConfirm(@RequestParam("token") String token){
+            ChangeToken changeToken = changeTokenRepository.findFirstByToken(token);
+            userService.confirmChangeEmail(changeToken.getToken());
+        return "changeEmail-confirmation";
     }
 
     @RequestMapping("/user/changePassword/{id}")
@@ -191,9 +227,9 @@ public class UserController {
     }
 
     @GetMapping("registerConfirm")
-    public String registerConfirm(@RequestParam("token") String token){
+    public String registerConfirm(@RequestParam("token") String token) {
         VerificationToken verificationToken = verificationTokenRepository.findFirstByToken(token);
-        userService.confirmUser(token);
+        userService.confirmUser(verificationToken.getToken());
         return "register-confirmation";
     }
 

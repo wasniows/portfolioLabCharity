@@ -9,4 +9,9 @@ public interface UserService {
     void createVerificationToken(User user, String token);
 
     void confirmUser(String token);
+
+    void createChangeEmailToken(User user, String token);
+
+    void confirmChangeEmail(String token);
+
 }

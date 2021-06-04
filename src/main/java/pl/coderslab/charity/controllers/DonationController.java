@@ -63,7 +63,14 @@ public class DonationController {
     }
 
     @GetMapping("/form")
-    public String formDonation(Model model) {
+    public String formDonation(@AuthenticationPrincipal UserDetails userDetails,Model model) {
+        String email = userDetails.getUsername();
+        User user = userRepository.findFirstByEmail(email);
+
+        if (!user.isAccess()){
+            return "noAccess";
+        }
+
         model.addAttribute("donation", new Donation());
         return "form";
     }

@@ -22,7 +22,7 @@
     <form:form modelAttribute="user" method="get" action="/user/edit">
         <form:errors path="*" cssClass="errorblock" element="div" /><br>
         <div class="form-group">
-            <form:input type="email" path="email" placeholder="Email" />
+            <form:hidden path="email"  />
         </div>
         <div class="form-group">
             <form:input path="firstName" placeholder="Imię" />
